@@ -1,0 +1,83 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: wordcloud
+      POSTGRES_USER: wordcloud
+      POSTGRES_PASSWORD: wordcloud
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U wordcloud -d wordcloud"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  core:
+    build:
+      context: ./wordcloud-core
+      dockerfile: Dockerfile
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      SPRING_POSTGRES_URL: jdbc:postgresql://postgres:5432/wordcloud
+      SPRING_POSTGRES_USERNAME: wordcloud
+      SPRING_POSTGRES_PASSWORD: wordcloud
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: guest
+      SPRING_RABBITMQ_PASSWORD: guest
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  worker:
+    build:
+      context: ./wordcloud-worker
+      dockerfile: Dockerfile
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/wordcloud
+      SPRING_DATASOURCE_USERNAME: wordcloud
+      SPRING_DATASOURCE_PASSWORD: wordcloud
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: guest
+      SPRING_RABBITMQ_PASSWORD: guest
+
+  frontend:
+    build:
+      context: ./wordcloud-frontend
+      dockerfile: Dockerfile
+    depends_on:
+      - core
+    ports:
+      - "3000:80"
+
+volumes:
+  postgres_data:

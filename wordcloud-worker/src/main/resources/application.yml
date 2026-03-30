@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: wordcloud-worker
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/wordcloud}
+    username: ${SPRING_DATASOURCE_USERNAME:wordcloud}
+    password: ${SPRING_DATASOURCE_PASSWORD:wordcloud}
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+  rabbitmq:
+    host: ${SPRING_RABBITMQ_HOST:localhost}
+    port: ${SPRING_RABBITMQ_PORT:5672}
+    username: ${SPRING_RABBITMQ_USERNAME:guest}
+    password: ${SPRING_RABBITMQ_PASSWORD:guest}
+
+wordcloud:
+  rabbitmq:
+    exchange: wordcloud.exchange
+    queue: wordcloud.chunks
+    routing-key: chunk.process
