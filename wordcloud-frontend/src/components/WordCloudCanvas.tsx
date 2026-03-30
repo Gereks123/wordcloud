@@ -40,8 +40,8 @@ export default function WordCloudCanvas({ words }: WordCloudCanvasProps) {
       .font('sans-serif')
       .fontSize((d) => d.size ?? 14)
       .on('end', (placed: cloud.Word[]) => {
-        const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-        g.setAttribute('transform', `translate(${WIDTH / 2},${HEIGHT / 2})`);
+        const element = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        element.setAttribute('transform', `translate(${WIDTH / 2},${HEIGHT / 2})`);
 
         placed.forEach((d, i) => {
           const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
@@ -54,10 +54,10 @@ export default function WordCloudCanvas({ words }: WordCloudCanvasProps) {
             `translate(${d.x ?? 0},${d.y ?? 0}) rotate(${d.rotate ?? 0})`
           );
           text.textContent = d.text ?? '';
-          g.appendChild(text);
+          element.appendChild(text);
         });
 
-        svg.appendChild(g);
+        svg.appendChild(element);
       })
       .start();
   }, [words]);
