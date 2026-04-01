@@ -2,12 +2,12 @@ import StatusBadge from './StatusBadge';
 import LoadingSpinner from './LoadingSpinner';
 import { SubmissionStatus, SUBMISSION_STATUS } from '../util/types';
 
-interface Props {
+interface SubmisssionStatusCardProps {
   id: string;
   status: SubmissionStatus;
 }
 
-export default function SubmissionStatusCard({ id, status }: Props) {
+export default function SubmissionStatusCard({ id, status }: SubmisssionStatusCardProps) {
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
       <div className="flex items-start justify-between flex-wrap gap-4">

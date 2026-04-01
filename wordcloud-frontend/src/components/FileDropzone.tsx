@@ -2,13 +2,13 @@ import { useDropzone } from 'react-dropzone';
 
 type DropzoneReturn = ReturnType<typeof useDropzone>;
 
-interface Props {
+interface FileDropZoneProps {
   getRootProps: DropzoneReturn['getRootProps'];
   getInputProps: DropzoneReturn['getInputProps'];
   isDragActive: boolean;
 }
 
-export default function FileDropzone({ getRootProps, getInputProps, isDragActive }: Props) {
+export default function FileDropzone({ getRootProps, getInputProps, isDragActive }: FileDropZoneProps) {
   return (
     <div
       {...getRootProps()}

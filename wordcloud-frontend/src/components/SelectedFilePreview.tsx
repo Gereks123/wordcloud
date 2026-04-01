@@ -1,9 +1,9 @@
-interface Props {
+interface SelectedFilePreviewProps {
   file: File;
   onRemove: () => void;
 }
 
-export default function SelectedFilePreview({ file, onRemove }: Props) {
+export default function SelectedFilePreview({ file, onRemove }: SelectedFilePreviewProps) {
   return (
     <div className="mt-4 p-3 bg-blue-50 rounded-lg flex items-center gap-3">
       <svg className="w-5 h-5 text-blue-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">

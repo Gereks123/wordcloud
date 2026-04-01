@@ -1,11 +1,11 @@
 import { CONFIG } from '../util/constants';
 import { SubmissionStatus } from '../util/types';
 
-interface Props {
+interface StatusBadgeProps {
   status: SubmissionStatus;
 }
 
-export default function StatusBadge({ status }: Props) {
+export default function StatusBadge({ status }: StatusBadgeProps) {
   const { label, classes, dotClass } = CONFIG[status];
   return (
     <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium border ${classes}`}>

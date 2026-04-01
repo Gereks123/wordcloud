@@ -1,10 +1,10 @@
 import { WordCountDto } from '../util/types';
 
-interface Props {
+interface TopWordsListProps {
   words: WordCountDto[];
 }
 
-export default function TopWordsList({ words }: Props) {
+export default function TopWordsList({ words }: TopWordsListProps) {
   if (words.length === 0) {
     return <span className="text-gray-400">—</span>;
   }

@@ -1,8 +1,8 @@
-interface Props {
+interface LoadingSpinnerProps {
   className?: string;
 }
 
-export default function LoadingSpinner({ className = 'w-6 h-6' }: Props) {
+export default function LoadingSpinner({ className = 'w-6 h-6' }: LoadingSpinnerProps) {
   return (
     <svg className={`animate-spin ${className}`} fill="none" viewBox="0 0 24 24">
       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
